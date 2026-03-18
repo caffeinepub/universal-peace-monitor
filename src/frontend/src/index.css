@@ -1,0 +1,178 @@
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 7 1.5 240;
+    --foreground: 98 0.01 240;
+    --card: 12 2.5 240;
+    --card-foreground: 95 0.01 240;
+    --popover: 10 2 240;
+    --popover-foreground: 95 0.01 240;
+    --primary: 84 0.13 192;
+    --primary-foreground: 10 0.02 240;
+    --secondary: 20 2 240;
+    --secondary-foreground: 80 0.04 230;
+    --muted: 18 2 240;
+    --muted-foreground: 60 0.04 230;
+    --accent: 77 0.14 210;
+    --accent-foreground: 10 0.02 240;
+    --destructive: 65 0.22 15;
+    --destructive-foreground: 98 0.01 0;
+    --border: 20 0.04 240;
+    --input: 18 0.03 240;
+    --ring: 84 0.13 192;
+    --success: 85 0.14 162;
+    --aurora-teal: 84 0.13 192;
+    --aurora-cyan: 75 0.14 210;
+    --aurora-green: 77 0.13 170;
+    --aurora-purple: 55 0.22 280;
+    --score-glow: 84 0.13 192;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+    color-scheme: dark;
+  }
+}
+
+/* Starfield canvas */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Aurora gradient overlay */
+.aurora-bg {
+  background: radial-gradient(
+      ellipse 120% 60% at 50% -10%,
+      oklch(var(--aurora-purple) / 0.25) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 80% 40% at 20% 50%,
+      oklch(var(--aurora-teal) / 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 80% 40% at 80% 60%,
+      oklch(var(--aurora-cyan) / 0.1) 0%,
+      transparent 55%
+    ), linear-gradient(to bottom, oklch(7 1.5 240) 0%, oklch(12 2.5 240) 100%);
+  min-height: 100vh;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: oklch(var(--card) / 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid oklch(var(--border) / 0.6);
+}
+
+/* Neon glow for scores */
+.score-glow {
+  color: oklch(var(--aurora-teal));
+  text-shadow: 0 0 10px oklch(var(--aurora-teal) / 0.8), 0 0 20px
+    oklch(var(--aurora-teal) / 0.5), 0 0 40px oklch(var(--aurora-teal) / 0.3);
+}
+
+.score-glow-sm {
+  color: oklch(var(--aurora-teal));
+  text-shadow: 0 0 6px oklch(var(--aurora-teal) / 0.7), 0 0 12px
+    oklch(var(--aurora-teal) / 0.4);
+}
+
+/* Flash animations */
+@keyframes flash-green {
+  0%,
+  100% {
+    background-color: transparent;
+  }
+  40% {
+    background-color: oklch(var(--success) / 0.18);
+  }
+}
+
+@keyframes flash-red {
+  0%,
+  100% {
+    background-color: transparent;
+  }
+  40% {
+    background-color: oklch(var(--destructive) / 0.18);
+  }
+}
+
+.flash-up {
+  animation: flash-green 1s ease-out;
+}
+
+.flash-down {
+  animation: flash-red 1s ease-out;
+}
+
+/* Stars twinkle */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Subtle pulse for live indicator */
+@keyframes livepulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
+.live-dot {
+  animation: livepulse 2s ease-in-out infinite;
+}
+
+/* Rank badge glow for top 3 */
+.rank-1 {
+  color: oklch(89 0.14 86);
+  text-shadow: 0 0 8px oklch(89 0.14 86 / 0.7);
+}
+.rank-2 {
+  color: oklch(82 0.04 220);
+  text-shadow: 0 0 8px oklch(82 0.04 220 / 0.5);
+}
+.rank-3 {
+  color: oklch(72 0.12 55);
+  text-shadow: 0 0 8px oklch(72 0.12 55 / 0.6);
+}
