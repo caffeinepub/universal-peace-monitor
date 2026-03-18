@@ -26,7 +26,6 @@ const SPECIES_OPTIONS = [
     emoji: "👽",
   },
   { value: Species.roboticEntity, label: "Robotic Entity", emoji: "🤖" },
-  { value: Species.unknown_, label: "Unknown Entity", emoji: "❓" },
 ];
 
 export default function AddIndividualForm() {
@@ -69,8 +68,16 @@ export default function AddIndividualForm() {
       setHomeworld("");
       setPeaceScore("500");
       setSpecies(Species.galacticHuman);
-    } catch {
-      toast.error("Failed to add individual");
+    } catch (err: unknown) {
+      console.error("Register Being error:", err);
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.toLowerCase().includes("already exists")) {
+        toast.error(`${name.trim()} is already registered in the universe`);
+      } else if (msg && msg !== "[object Object]") {
+        toast.error(`Registration failed: ${msg}`);
+      } else {
+        toast.error("Failed to register being. Please try again.");
+      }
     }
   };
 

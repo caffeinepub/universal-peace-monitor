@@ -11,26 +11,11 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { Individual } from "../backend";
-import { Species } from "../backend";
 import {
   useApplyDynamicDrift,
   useDeleteIndividual,
   useGetAllIndividualsRanked,
 } from "../hooks/useQueries";
-
-const SPECIES_LABELS: Record<string, string> = {
-  [Species.galacticHuman]: "Galactic Human",
-  [Species.extraterrestrialBeing]: "Extraterrestrial",
-  [Species.roboticEntity]: "Robotic Entity",
-  [Species.unknown_]: "Unknown",
-};
-
-const SPECIES_EMOJI: Record<string, string> = {
-  [Species.galacticHuman]: "👤",
-  [Species.extraterrestrialBeing]: "👽",
-  [Species.roboticEntity]: "🤖",
-  [Species.unknown_]: "❓",
-};
 
 function getRankClass(rank: number) {
   if (rank === 1) return "rank-1";
@@ -167,17 +152,15 @@ export default function Leaderboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[40px_1fr_120px_90px_90px_36px] gap-2 px-5 py-2.5 border-b border-white/5">
-        {["#", "INDIVIDUAL", "SPECIES", "HOMEWORLD", "PEACE SCORE", ""].map(
-          (h) => (
-            <span
-              key={h}
-              className="text-[9px] font-display font-600 tracking-[0.2em] text-muted-foreground uppercase"
-            >
-              {h}
-            </span>
-          ),
-        )}
+      <div className="grid grid-cols-[40px_1fr_140px_90px_36px] gap-2 px-5 py-2.5 border-b border-white/5">
+        {["#", "INDIVIDUAL", "DESIGNATION", "PEACE SCORE", ""].map((h) => (
+          <span
+            key={h}
+            className="text-[9px] font-display font-600 tracking-[0.2em] text-muted-foreground uppercase"
+          >
+            {h}
+          </span>
+        ))}
       </div>
 
       <div className="flex-1 overflow-y-auto max-h-[520px]">
@@ -217,7 +200,7 @@ export default function Leaderboard() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   data-ocid={`leaderboard.item.${markerIdx}`}
-                  className={`grid grid-cols-[40px_1fr_120px_90px_90px_36px] gap-2 items-center px-5 py-3 border-b border-white/[0.04] hover:bg-white/[0.03] transition-colors duration-200 ${
+                  className={`grid grid-cols-[40px_1fr_140px_90px_36px] gap-2 items-center px-5 py-3 border-b border-white/[0.04] hover:bg-white/[0.03] transition-colors duration-200 ${
                     flash === "up"
                       ? "flash-up"
                       : flash === "down"
@@ -238,17 +221,11 @@ export default function Leaderboard() {
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <span className="text-sm">
-                      {SPECIES_EMOJI[ind.species] ?? "❓"}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground truncate">
-                      {SPECIES_LABELS[ind.species] ?? ind.species}
+                    <span className="text-sm">👤</span>
+                    <span className="text-[10px] text-aurora-teal font-600 tracking-wide truncate">
+                      Galactic Human
                     </span>
                   </div>
-
-                  <span className="text-[10px] text-muted-foreground truncate">
-                    {ind.homeworld}
-                  </span>
 
                   <div className="flex flex-col items-start">
                     <span className="font-display font-800 text-lg tabular-nums score-glow-sm leading-none">

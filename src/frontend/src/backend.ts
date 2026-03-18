@@ -260,7 +260,7 @@ function from_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uin
 } | {
     unknown: null;
 }): Species {
-    return "extraterrestrialBeing" in value ? Species.extraterrestrialBeing : "galacticHuman" in value ? Species.galacticHuman : "roboticEntity" in value ? Species.roboticEntity : "unknown" in value ? Species.unknown : value;
+    return "extraterrestrialBeing" in value ? Species.extraterrestrialBeing : "galacticHuman" in value ? Species.galacticHuman : "roboticEntity" in value ? Species.roboticEntity : "unknown" in value ? Species.unknown_ : value;
 }
 function from_candid_vec_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Individual>): Array<Individual> {
     return value.map((x)=>from_candid_Individual_n6(_uploadFile, _downloadFile, x));
@@ -304,8 +304,8 @@ function to_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8
         galacticHuman: null
     } : value == Species.roboticEntity ? {
         roboticEntity: null
-    } : value == Species.unknown ? {
-        unknown_: null
+    } : value == Species.unknown_ ? {
+        unknown: null
     } : value;
 }
 export interface CreateActorOptions {
